@@ -26,6 +26,9 @@
 		18D775C722AD944400AE281E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18D775C622AD944400AE281E /* Assets.xcassets */; };
 		18D775CA22AD944400AE281E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18D775C922AD944400AE281E /* Preview Assets.xcassets */; };
 		18D775D822AD963800AE281E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18D775DA22AD963800AE281E /* LaunchScreen.storyboard */; };
+		3A005C2D25CDAEFE006D85D7 /* TripListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A005C2C25CDAEFD006D85D7 /* TripListInteractor.swift */; };
+		3A005C3225CDAF8C006D85D7 /* TripListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A005C3125CDAF8C006D85D7 /* TripListPresenter.swift */; };
+		3A005C3525CDD79F006D85D7 /* TripListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A005C3425CDD79E006D85D7 /* TripListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +54,9 @@
 		18D775C922AD944400AE281E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		18D775CE22AD944400AE281E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		18D775DE22AD96B400AE281E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		3A005C2C25CDAEFD006D85D7 /* TripListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListInteractor.swift; sourceTree = "<group>"; };
+		3A005C3125CDAF8C006D85D7 /* TripListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListPresenter.swift; sourceTree = "<group>"; };
+		3A005C3425CDD79E006D85D7 /* TripListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +130,7 @@
 		18D775BF22AD944300AE281E /* Viper */ = {
 			isa = PBXGroup;
 			children = (
+				3A005C2B25CDAECD006D85D7 /* TripsModule */,
 				18D775C022AD944300AE281E /* AppDelegate.swift */,
 				18D775C222AD944300AE281E /* SceneDelegate.swift */,
 				18D775C422AD944300AE281E /* ContentView.swift */,
@@ -146,6 +153,16 @@
 				18D775C922AD944400AE281E /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		3A005C2B25CDAECD006D85D7 /* TripsModule */ = {
+			isa = PBXGroup;
+			children = (
+				3A005C2C25CDAEFD006D85D7 /* TripListInteractor.swift */,
+				3A005C3125CDAF8C006D85D7 /* TripListPresenter.swift */,
+				3A005C3425CDD79E006D85D7 /* TripListView.swift */,
+			);
+			path = TripsModule;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,10 +246,13 @@
 				0A20EFAE240EA73A00A0CA27 /* WaypointView.swift in Sources */,
 				0A83577623D697A300D83533 /* MapView.swift in Sources */,
 				0A20EFA2240EA70900A0CA27 /* TripListCell.swift in Sources */,
+				3A005C2D25CDAEFE006D85D7 /* TripListInteractor.swift in Sources */,
+				3A005C3225CDAF8C006D85D7 /* TripListPresenter.swift in Sources */,
 				0A83577B23D6996200D83533 /* Persistence.swift in Sources */,
 				0A46782923D7AE980073803D /* Waypoint.swift in Sources */,
 				18D775C322AD944300AE281E /* SceneDelegate.swift in Sources */,
 				0A83577C23D6996200D83533 /* Trip.swift in Sources */,
+				3A005C3525CDD79F006D85D7 /* TripListView.swift in Sources */,
 				0A80218C23DF478B00166C86 /* MapDataProvider.swift in Sources */,
 				18D775C522AD944300AE281E /* ContentView.swift in Sources */,
 			);
