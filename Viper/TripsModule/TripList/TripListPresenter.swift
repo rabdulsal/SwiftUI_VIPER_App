@@ -35,6 +35,7 @@ class TripListPresenter: ObservableObject {
     @Published var trips = [Trip]()
     private let interactor: TripListInteractor
     private var cancellables = Set<AnyCancellable>()
+    private let router = TripListRouter()
 
     init(_ interactor: TripListInteractor) {
         self.interactor = interactor
@@ -42,4 +43,24 @@ class TripListPresenter: ObservableObject {
             .assign(to: \.trips, on:self)
             .store(in: &cancellables)
     }
+    
+    func makeAddNewButton() -> some View {
+        Button(action: addNewTrip) {
+            Image(systemName: "plus")
+        }
+    }
+    
+    func linkBuilder<Content: View>( for trip: Trip, @ViewBuilder content: ()->Content) -> some View {
+        NavigationLink(
+            destination: router.makeDetailView(
+                for: trip, model: interactor.model
+            )
+        ) {
+            content()
+        }
+    }
+    
+    func addNewTrip() { interactor.addNewTrip() }
+    
+    func deleteTrip(_ index: IndexSet) { interactor.deleteTrip(index) }
 }

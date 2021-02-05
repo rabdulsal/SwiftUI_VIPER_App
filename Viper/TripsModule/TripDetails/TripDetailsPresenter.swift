@@ -26,25 +26,15 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 
+import Foundation
 import SwiftUI
+import Combine
 
-struct TripListView: View {
-    @ObservedObject var presenter: TripListPresenter
-    var body: some View {
-        List {
-            ForEach (presenter.trips, id:\.id) { item in
-                TripListCell(trip: item)
-                    .frame(height: 240)
-            }
-        }
-    }
-}
-
-struct TripListView_Previews: PreviewProvider {
-    static var previews: some View {
-        let model = DataModel.sample
-        let interactor = TripListInteractor(model)
-        let presenter = TripListPresenter(interactor)
-        return TripListView(presenter: presenter)
+class TripDetailsPresenter: ObservableObject {
+    private let interactor: TripDetailsInteractor
+    private var cancellables = Set<AnyCancellable>()
+    
+    init(_ interactor: TripDetailsInteractor) {
+        self.interactor = interactor
     }
 }
