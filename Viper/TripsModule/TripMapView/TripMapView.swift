@@ -28,46 +28,22 @@
 
 import SwiftUI
 
-struct TripDetailsView: View {
-    @ObservedObject var presenter: TripDetailsPresenter
+struct TripMapView: View {
+    @ObservedObject var presenter: TripMapViewPresenter
+    
     var body: some View {
-        /*
-         The VStack for now holds a TextField for editing the trip name. The navigation bar modifiers define the title using the presenter’s published tripName, so it updates as the user types, and a save button that will persist any changes.
-         */
-        VStack {
-            TextField("Trip Name", text: presenter.setTripName)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding([.horizontal])
-            presenter.makeMapView()
-            Text(presenter.distanceLabel)
-            HStack {
-                Spacer()
-                EditButton()
-                Button(action: presenter.addWaypoint, label: {
-                    Text("Add")
-                })
-            }.padding([.horizontal])
-            List {
-                ForEach(presenter.waypoints, content: presenter.cell)
-                    .onMove(perform: { indices, newOffset in
-                        presenter.didMoveWaypoint(fromOffsets: indices, toOffset: newOffset)
-                    })
-                    .onDelete(perform: presenter.didDeleteWaypoint(_:))
-            }
-        }
-        .navigationBarTitle(Text(presenter.tripName), displayMode: .inline)
-        .navigationBarItems(trailing: Button("Save", action: presenter.save))
+        MapView(pins: presenter.pins, routes: presenter.routes)
     }
 }
 
-struct TripDetailsView_Previews: PreviewProvider {
+#if DEBUG
+struct TripMapView_Previews: PreviewProvider {
     static var previews: some View {
         let model = DataModel.sample
-        let trip = model.trips[1]
-        let mapProvider = RealMapDataProvider()
-        let presenter = TripDetailsPresenter(TripDetailsInteractor(trip: trip, model: model, mapInfoProvider: mapProvider))
-        return NavigationView {
-            TripDetailsView(presenter: presenter)
-        }
+        let trip = model.trips[0]
+        let interactor = TripDetailsInteractor(trip: trip, model: model, mapInfoProvider: RealMapDataProvider())
+        let presenter = TripMapViewPresenter(interactor)
+        return VStack { TripMapView(presenter: presenter) }
     }
 }
+#endif

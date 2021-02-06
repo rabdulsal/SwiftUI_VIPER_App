@@ -32,9 +32,68 @@ import Combine
 
 class TripDetailsPresenter: ObservableObject {
     private let interactor: TripDetailsInteractor
+    private let router: TripDetailsRouter
     private var cancellables = Set<AnyCancellable>()
+    @Published var tripName: String="No name"
+    @Published var distanceLabel: String="Calculating..."
+    @Published var waypoints = [Waypoint]()
+    let setTripName: Binding<String>
     
     init(_ interactor: TripDetailsInteractor) {
         self.interactor = interactor
+        self.router = TripDetailsRouter(interactor.mapInfoProvider)
+        /* 1.
+         Create a binding to set the trip name. The TextField will use this in the view to be able to read and write from the value.
+        */
+        setTripName = Binding<String>(
+            get: { interactor.tripName },
+            set: { interactor.setTripName($0) }
+        )
+        /* 2.
+         Assign the trip name from the interactor’s publisher to the tripName property of the presenter. This keeps the value synchronized.
+         */
+        interactor.tripNamePublisher
+            .assign(to: \.tripName, on: self)
+            .store(in: &cancellables)
+        
+        /*
+         The first subscription takes the raw distance from the interactor and formats it for display in the view, and the second just copies over the waypoints.
+         */
+        interactor.$totalDistance
+            .map { "Total Distance: " + MeasurementFormatter().string(from: $0)
+            }
+            .replaceNil(with: "Calculating...")
+            .assign(to: \.distanceLabel, on: self)
+            .store(in: &cancellables)
+        
+        interactor.$waypoints
+            .assign(to: \.waypoints, on: self)
+            .store(in: &cancellables)
     }
+    
+    func makeMapView() -> some View { TripMapView(presenter: TripMapViewPresenter(interactor)) }
+    
+    func save() { interactor.save() }
+    
+    func addWaypoint() {
+      interactor.addWaypoint()
+    }
+
+    func didMoveWaypoint(fromOffsets: IndexSet, toOffset: Int) {
+      interactor.moveWaypoint(fromOffsets: fromOffsets, toOffset: toOffset)
+    }
+
+    func didDeleteWaypoint(_ atOffsets: IndexSet) {
+      interactor.deleteWaypoint(atOffsets: atOffsets)
+    }
+    
+    // calls the router to get a waypoint view for the waypoint and put it in a NavigationLink.
+    func cell(for waypoint: Waypoint) -> some View {
+      let destination = router.makeWaypointView(for: waypoint)
+        .onDisappear(perform: interactor.updateWaypoints)
+      return NavigationLink(destination: destination) {
+        Text(waypoint.name)
+      }
+    }
+
 }
